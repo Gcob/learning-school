@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MainController!{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>Hello main controller!</h1>
+    {% for vecteurHtml in sVecteur.getVecteursToString(sVecteur.getVecteurs) %}
+        {{ vecteurHtml|raw }}<br>
+    {% endfor %}
+</div>
+{% endblock %}
