@@ -1,0 +1,56 @@
+<svg width="600" height="600" style="border: 1px solid black;">
+{% set x = 300 %}
+{% set y = 300 %}
+{% set values = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a']%}
+{% for vecteur in sVecteur.vecteurs %}
+    {% set color = '#' ~ random(values) ~ random(values) ~ random(values) ~ random(values) ~ random(values) ~ random(values) %}
+    {% set relativePoint = sVecteur.vecteurPoint2Pos(vecteur) %}
+    {% set namePosX = 0 %}
+    {% set namePosY = 0 %}
+    {% if vecteur.getSens == 1 %}
+        {% set namePosX = -7 %}
+        {% set namePosY = -7 %}
+    {% elseif vecteur.getSens == 2 %}
+        {% set namePosX = -15 %}
+        {% set namePosY = 0 %}
+    {% elseif vecteur.getSens == 3 %}
+        {% set namePosX = 5 %}
+        {% set namePosY = 0 %}
+    {% elseif vecteur.getSens == 4 %}
+        {% set namePosX = 5 %}
+        {% set namePosY = -5 %}
+    {% elseif vecteur.getSens == 5 %}
+        {% set namePosX = -10 %}
+        {% set namePosY = -5 %}
+    {% elseif vecteur.getSens == 6 %}
+        {% set namePosX = -15 %}
+        {% set namePosY = 0 %}
+    {% elseif vecteur.getSens == 7 %}
+        {% set namePosX = -15 %}
+        {% set namePosY = 20 %}
+    {% elseif vecteur.getSens == 8 %}
+        {% set namePosX = -15 %}
+        {% set namePosY = 20 %}
+    {% endif %}
+
+    <g style="fill: {{ color }}">
+        <text x="{{ x + relativePoint.x/2 + namePosX - 1 }}" y="{{ y + relativePoint.y/2 + namePosY - 9 }}">
+            &#8594;
+        </text>
+        <text x="{{ x + relativePoint.x/2 + namePosX }}" y="{{ y + relativePoint.y/2 + namePosY }}">
+            {{ vecteur.name }}
+        </text>
+        <line
+                x1="{{ x }}" y1="{{ y }}"
+                {% set x = x + relativePoint.x %}
+                {% set y = y + relativePoint.y %}
+                x2="{{ x }}" y2="{{ y }}"
+                style="stroke:{{ color }};stroke-width:2"
+        />
+        <polygon
+                points="{{ x - 5 }},{{ y }} {{ x }},{{ y - 5 }} {{ x }},{{ y }}"
+                style="fill:{{ color }};stroke:{{ color }};stroke-width:2; transform: rotate({{ relativePoint.trueAngle - 45 }}deg); transform-origin: {{ x }}px {{ y }}px"
+        />
+    </g>
+{% endfor %}
+</svg>

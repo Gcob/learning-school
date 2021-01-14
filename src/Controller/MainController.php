@@ -13,8 +13,37 @@ class MainController extends AbstractController
     #[Route('/main', name: 'main')]
     public function index(sVecteur $sVecteur): Response
     {
-        $sVecteur->addVecteur(new Vecteur(10.0, 'm', 25, Vecteur::SENS_2_CADRAN_1));
-        $sVecteur->addVecteur(new Vecteur(15.0, 'm', 5, Vecteur::SENS_1_CADRAN_4));
+        $sVecteur->addVecteur(new Vecteur(25.0, 'm', 7.5, Vecteur::SENS_1_CADRAN_1));
+        $sVecteur->addVecteur(new Vecteur(25.0, 'm', 22.5, Vecteur::SENS_1_CADRAN_1));
+        $sVecteur->addVecteur(new Vecteur(25.0, 'm', 37.5, Vecteur::SENS_1_CADRAN_1));
+
+        $sVecteur->addVecteur(new Vecteur(25.0, 'm', 37.5, Vecteur::SENS_2_CADRAN_1));
+        $sVecteur->addVecteur(new Vecteur(25.0, 'm', 22.5, Vecteur::SENS_2_CADRAN_1));
+        $sVecteur->addVecteur(new Vecteur(25.0, 'm', 7.5, Vecteur::SENS_2_CADRAN_1));
+
+        $sVecteur->addVecteur(new Vecteur(25.0, 'm', 7.5, Vecteur::SENS_1_CADRAN_2));
+        $sVecteur->addVecteur(new Vecteur(25.0, 'm', 22.5, Vecteur::SENS_1_CADRAN_2));
+        $sVecteur->addVecteur(new Vecteur(25.0, 'm', 37.5, Vecteur::SENS_1_CADRAN_2));
+
+        $sVecteur->addVecteur(new Vecteur(25.0, 'm', 37.5, Vecteur::SENS_2_CADRAN_2));
+        $sVecteur->addVecteur(new Vecteur(25.0, 'm', 22.5, Vecteur::SENS_2_CADRAN_2));
+        $sVecteur->addVecteur(new Vecteur(25.0, 'm', 7.5, Vecteur::SENS_2_CADRAN_2));
+
+        $sVecteur->addVecteur(new Vecteur(25.0, 'm', 7.5, Vecteur::SENS_1_CADRAN_3));
+        $sVecteur->addVecteur(new Vecteur(25.0, 'm', 22.5, Vecteur::SENS_1_CADRAN_3));
+        $sVecteur->addVecteur(new Vecteur(25.0, 'm', 37.5, Vecteur::SENS_1_CADRAN_3));
+
+        $sVecteur->addVecteur(new Vecteur(25.0, 'm', 37.5, Vecteur::SENS_2_CADRAN_3));
+        $sVecteur->addVecteur(new Vecteur(25.0, 'm', 22.5, Vecteur::SENS_2_CADRAN_3));
+        $sVecteur->addVecteur(new Vecteur(25.0, 'm', 7.5, Vecteur::SENS_2_CADRAN_3));
+
+        $sVecteur->addVecteur(new Vecteur(25.0, 'm', 7.5, Vecteur::SENS_1_CADRAN_4));
+        $sVecteur->addVecteur(new Vecteur(25.0, 'm', 22.5, Vecteur::SENS_1_CADRAN_4));
+        $sVecteur->addVecteur(new Vecteur(25.0, 'm', 37.5, Vecteur::SENS_1_CADRAN_4));
+
+        $sVecteur->addVecteur(new Vecteur(25.0, 'm', 37.5, Vecteur::SENS_2_CADRAN_4));
+        $sVecteur->addVecteur(new Vecteur(25.0, 'm', 22.5, Vecteur::SENS_2_CADRAN_4));
+        $sVecteur->addVecteur(new Vecteur(25.0, 'm', 7.5, Vecteur::SENS_2_CADRAN_4));
 
         return $this->render('main/index.html.twig', [
             'sVecteur' => $sVecteur,

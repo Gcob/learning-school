@@ -5,8 +5,10 @@
 {% block body %}
 <div class="container">
     <h1>Hello main controller!</h1>
-    {% for vecteurHtml in sVecteur.getVecteursToString(sVecteur.getVecteurs) %}
+    {% for vecteurHtml in sVecteur.getVecteursToString() %}
         {{ vecteurHtml|raw }}<br>
     {% endfor %}
+    <br>
+    {{ sVecteur.vecteursResultante|raw }}
 </div>
 {% endblock %}
