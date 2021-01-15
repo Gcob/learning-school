@@ -1,47 +1,74 @@
 <?php
-
+/**
+ * L'objectif de cette classe est de gérer les valeurs en lien avec un vecteur.
+ * Pour les logiques et calculs, il faut employer le service sVecteurs.
+ */
 
 namespace App\Classes;
 
 
 class Vecteur
 {
-    // Le premier sens est celui de l'axe des X, l'autre des Y et on compte dans le sens anti horaire
-    public const SENS_1_CADRAN_1 = 1;
-    public const SENS_2_CADRAN_1 = 2;
-    public const SENS_1_CADRAN_2 = 3;
-    public const SENS_2_CADRAN_2 = 4;
-    public const SENS_1_CADRAN_3 = 5;
-    public const SENS_2_CADRAN_3 = 6;
-    public const SENS_1_CADRAN_4 = 7;
-    public const SENS_2_CADRAN_4 = 8;
-
-    private string $name = '';
+    //Remarquez qu<on tourne en sens anti-horaire
+    public const CADRAN_I_X = 1;
+    public const CADRAN_I_Y = 2;
+    public const CADRAN_II_Y = 3;
+    public const CADRAN_II_X = 4;
+    public const CADRAN_III_X = 5;
+    public const CADRAN_III_Y = 6;
+    public const CADRAN_IV_Y = 7;
+    public const CADRAN_IV_X = 8;
 
     private static int $nameCount = 0;
 
-    public static function getNewName ()
+    public static function generateName () : string
     {
-        return chr(++self::$nameCount + 64);
+        return 'V' . ++self::$nameCount;
     }
 
-    public function __construct(
-        // La valeur associée à l'unité
-        private float   $grandeur,
+    private static int $colorIndex = 0;
 
-        // L'unité de la grandeur
-        private string  $unites,
+    public static function generateCouleur () : string
+    {
+        $colorValues = ['r' => 0, 'g' => 0, 'b' => 0];
 
-        // La direction est l'angle en degrées
-        private float   $direction = 0.0,
-
-        //Le sens comporte 8 options (2 par cadran)
-        private int     $sens = self::SENS_1_CADRAN_1
-    ){
-        if($this->sens < self::SENS_1_CADRAN_1 || $this->sens > self::SENS_2_CADRAN_4)
+        switch(self::$colorIndex++ % 3)
         {
-            throw new \Exception('Le sens doit être précisé');
+            case 0:
+                $colorValues['r'] = 255 - self::$colorIndex * 10;
+                break;
+            case 1:
+                $colorValues['g'] = 255 - self::$colorIndex * 10;
+                break;
+            case 2:
+                $colorValues['b'] = 255 - self::$colorIndex * 10;
+                break;
         }
+
+        $color = sprintf('rgb(%s, %s, %s)', $colorValues['r'], $colorValues['g'], $colorValues['b']);
+
+        return $color;
+    }
+
+    private string $name = '';
+    private string $couleur = '';
+
+    /**
+     * @var Point
+     */
+    private Point $pointAbsoluCadranIX;
+    private Point $pointRelatifCadranIX;
+
+
+    public function __construct(
+        private float $grandeur,
+        private float $angle = 0.0,
+        private int $sens = self::CADRAN_I_X,
+        private float $multiplicateur = 1.0
+    ){
+        $this->setSens($this->sens);//pour validation
+        $this->name = self::generateName();
+        $this->couleur = self::generateCouleur();
     }
 
     /**
@@ -61,35 +88,19 @@ class Vecteur
     }
 
     /**
-     * @return string
-     */
-    public function getUnites(): string
-    {
-        return $this->unites;
-    }
-
-    /**
-     * @param string $unites
-     */
-    public function setUnites(string $unites): void
-    {
-        $this->unites = $unites;
-    }
-
-    /**
      * @return float
      */
-    public function getDirection(): float
+    public function getAngle(): float
     {
-        return $this->direction;
+        return $this->angle;
     }
 
     /**
-     * @param float $direction
+     * @param float $angle
      */
-    public function setDirection(float $direction): void
+    public function setAngle(float $angle): void
     {
-        $this->direction = $direction;
+        $this->angle = $angle;
     }
 
     /**
@@ -105,17 +116,36 @@ class Vecteur
      */
     public function setSens(int $sens): void
     {
+        if ($sens < self::CADRAN_I_X || $sens > self::CADRAN_IV_X)
+        {
+            throw new \Error("Cadran innexistant.");
+        }
+
         $this->sens = $sens;
     }
 
     /**
+     * @return float
+     */
+    public function getMultiplicateur(): float
+    {
+        return $this->multiplicateur;
+    }
+
+    /**
+     * @param float $multiplicateur
+     */
+    public function setMultiplicateur(float $multiplicateur): void
+    {
+        $this->multiplicateur = $multiplicateur;
+    }
+
+    /**
      * @return string
+     *
      */
     public function getName(): string
     {
-        if(!$this->name)
-            $this->name = self::getNewName();
-
         return $this->name;
     }
 
@@ -125,5 +155,37 @@ class Vecteur
     public function setName(string $name): void
     {
         $this->name = $name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCouleur(): string
+    {
+        return $this->couleur;
+    }
+
+    /**
+     * @param string $couleur
+     */
+    public function setCouleur(string $couleur): void
+    {
+        $this->couleur = $couleur;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAbsolutePosition(): array
+    {
+        return $this->absolutePosition;
+    }
+
+    /**
+     * @param array $absolutePosition
+     */
+    public function setAbsolutePosition(array $absolutePosition): void
+    {
+        $this->absolutePosition = $absolutePosition;
     }
 }

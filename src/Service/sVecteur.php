@@ -30,78 +30,74 @@ class sVecteur
     /**
      * @param array $vecteurs
      */
-    public function setVecteurs(array $vecteurs): void
+    public function setVecteurs(array $vecteurs): sVecteur
     {
         $this->vecteurs = $vecteurs;
+        return $this;
     }
 
     /**
      * @param Vecteur $vecteur
      */
-    public function addVecteur(Vecteur $vecteur): void
+    public function addVecteur(Vecteur $vecteur): sVecteur
     {
         $this->vecteurs[] = $vecteur;
+        return $this;
     }
 
-    public function getVecteurToString(Vecteur $vecteur)
+    /**
+     * @param Vecteur $v
+     * @return float
+     * 
+     * Retourne un angle converti en fonction du CADRAN_I_X
+     */
+    public function trouverAngleAbsolu (Vecteur $v) : float
     {
-        return $this->twig->render('_components/vecteurToString.html.twig', [
-            'vecteur' => $vecteur
-        ]);
-    }
+        $angleAbsolu = 0.0;
 
-    public function getVecteursToString ()
-    {
-        $vecteursHtml = [];
-
-        foreach ($this->getVecteurs() as $vecteur)
+        switch ($v->getSens())
         {
-            $vecteursHtml[] = $this->getVecteurToString($vecteur);
+            case Vecteur::CADRAN_I_X:
+                $angleAbsolu = $v->getAngle();
+                break;
+            case Vecteur::CADRAN_I_Y:
+                $angleAbsolu = 90 - $v->getAngle();
+                break;
+            case Vecteur::CADRAN_II_Y:
+                $angleAbsolu = 90 + $v->getAngle();
+                break;
+            case Vecteur::CADRAN_II_X:
+                $angleAbsolu = 180 - $v->getAngle();
+                break;
+            case Vecteur::CADRAN_III_X:
+                $angleAbsolu = 180 + $v->getAngle();
+                break;
+            case Vecteur::CADRAN_III_Y:
+                $angleAbsolu = 270 - $v->getAngle();
+                break;
+            case Vecteur::CADRAN_IV_Y:
+                $angleAbsolu = 270 + $v->getAngle();
+                break;
+            case Vecteur::CADRAN_IV_X:
+                $angleAbsolu = 360 - $v->getAngle();
+                break;
         }
 
-        return $vecteursHtml;
+        return $angleAbsolu;
     }
 
-    public function getVecteursResultante ()
+    /**
+     * @param Vecteur $v
+     * @return Vecteur
+     *
+     * Notez que le point x1,y1 sera toujours 0,0 en position absolue.
+     */
+    public function generateVecteurAbsolutePosition (Vecteur $v) : Vecteur
     {
-        return $this->twig->render('_components/vecteursResultante.html.twig', [
-            'sVecteur' => $this
-        ]);
+
+
+        return $v;
     }
 
-    public function getVecteurPoint2Pos (Vecteur $v)
-    {
-        $point = ['x' => 0, 'y' => 0, 'trueAngle' => 0];
 
-        $degree = match ($v->getSens())
-        {
-            1 => 360 - $v->getDirection(),
-            2 => 270 + $v->getDirection(),
-            3 => 270 - $v->getDirection(),
-            4 => 180 + $v->getDirection(),
-            5 => 180 - $v->getDirection(),
-            6 => 90 + $v->getDirection(),
-            7 => 90 - $v->getDirection(),
-            default => $v->getDirection(),
-        };
-
-        $point['x'] = (cos(deg2rad($degree)) * $v->getGrandeur());
-        $point['y'] = (sin(deg2rad($degree)) * $v->getGrandeur());
-        $point['trueAngle'] = $degree;
-
-        /*
-        if($v->getSens() % 2 == 1)
-        {
-            $point['x'] = (cos(deg2rad($degree)) * $v->getGrandeur());
-            $point['y'] = (sin(deg2rad($degree)) * $v->getGrandeur());
-        }
-        else
-        {
-            $point['x'] = (sin(deg2rad($degree)) * $v->getGrandeur());
-            $point['y'] = (cos(deg2rad($degree)) * $v->getGrandeur());
-        }
-        */
-
-        return $point;
-    }
 }
