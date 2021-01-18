@@ -24,6 +24,8 @@ class MainController extends AbstractController
         ;
 
         dump($v1);
+        dump($v2);
+        dump($v3);
 
         return $this->render('main/index.html.twig', [
             'sVecteur' => $sVecteur,
