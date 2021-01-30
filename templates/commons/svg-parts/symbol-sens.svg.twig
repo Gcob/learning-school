@@ -1,0 +1,82 @@
+{#
+    Dessinne le symbole de l'angle en rapport avec le plan cartésien
+    Importe la flèche pour indiquer la direction
+#}
+
+{# Paramètres par défault #}
+{% set symbolSpecsDefaults = {
+    x: 0,
+    y: 0,
+    width: 20,
+    headSize: 6,
+    ligneSize: 2,
+    sens: 0
+} %}
+
+{# On écrase les paramètres par défault par ceux incluts #}
+{% set symbolSpecs = (symbolSpecs is defined) ? symbolSpecsDefaults|merge(symbolSpecs) : symbolSpecsDefaults %}
+
+{# On détermine la rotation de la flèche d'après le sens donné #}
+{% set arrowX = symbolSpecs.x %}
+{% set arrowY = symbolSpecs.y - symbolSpecs.ligneSize %}
+{% set rotate = 0 %}
+{% if symbolSpecs.sens == 2 or symbolSpecs.sens == 3 %}
+    {% set rotate = -90 %}
+{% endif %}
+{% if symbolSpecs.sens == 4 or symbolSpecs.sens == 5 %}
+    {% set rotate = -180 %}
+{% endif %}
+{% if symbolSpecs.sens == 6 or symbolSpecs.sens == 7 %}
+    {% set rotate = -270 %}
+{% endif %}
+
+<g
+   transform="translate(
+        {{ (symbolSpecs.sens >= 2 and symbolSpecs.sens <= 5) ? symbolSpecs.width - symbolSpecs.ligneSize : 0 }},
+        {{ (symbolSpecs.sens >= 4) ? -symbolSpecs.width + symbolSpecs.ligneSize : 0 }}
+   )"
+>
+    <g
+        transform="rotate({{ rotate }},{{ symbolSpecs.x }},{{ symbolSpecs.y + symbolSpecs.ligneSize/2 }})"
+    >
+        {# Début du dessin du symbole #}
+        {{ include('commons/svg-parts/arrow.svg.twig', {arrowSpecs: {
+            x: arrowX,
+            y: arrowY,
+            width: symbolSpecs.width,
+            headSize: symbolSpecs.headSize,
+            ligneSize: symbolSpecs.ligneSize,
+            rotate: -45,
+            rotateOrigin: {
+                x: arrowX,
+                y: arrowY + symbolSpecs.headSize/2,
+            },
+        }}) }}
+
+        {% if(symbolSpecs.sens % 2 == 0) %}
+        <rect
+                width="{{ symbolSpecs.width }}"
+                height="{{ symbolSpecs.ligneSize }}"
+                x="{{ symbolSpecs.x }}"
+                y="{{ symbolSpecs.y }}"
+        />
+        {% else %}
+            <rect
+            width="{{ symbolSpecs.ligneSize }}"
+            height="{{ symbolSpecs.width }}"
+            x="{{ symbolSpecs.x - symbolSpecs.ligneSize/2 }}"
+            y="{{ symbolSpecs.y - symbolSpecs.width }}"
+            />
+        {% endif %}
+
+        {# Origine de rotation #}
+        {#<circle
+                cx="{{ symbolSpecs.x }}"
+                cy="{{ symbolSpecs.y + symbolSpecs.ligneSize/2 }}"
+                r="2"
+                stroke="rgba(255,0,0,0.2)"
+                stroke-width="1"
+                fill="none"
+        />#}
+    </g>
+</g>

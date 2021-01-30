@@ -1,0 +1,25 @@
+<div class="vecteur2d">
+    <svg width="150" height="30">
+        {# Sens #}
+        {{ include('commons/svg-parts/symbol-sens.svg.twig', {symbolSpecs : {x: 2, y: 20, sens: vecteur.sens}}) }}
+
+        {# Flèche dessus le nom du vecteur #}
+        {{ include('commons/svg-parts/arrow.svg.twig', {arrowSpecs : {x: 30, sens: vecteur.sens}}) }}
+
+        <text font-size="15" x="30" y="18">
+            {# Nom du vecteur #}
+            {{ vecteur.name }} :
+
+            {# Grandeur #}
+            {{ vecteur.grandeur.grandeur }}
+
+            {# Unité de grandeur #}
+            <tspan font-style="italic">
+                {{ vecteur.grandeur.unite }}
+            </tspan>
+
+            {# Direction #}
+            {{ vecteur.direction }}°
+        </text>
+    </svg>
+</div>

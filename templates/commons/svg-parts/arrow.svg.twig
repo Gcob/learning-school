@@ -1,0 +1,59 @@
+{#
+    Dessinne une flèche pointant vers la droite.
+    La pointe de la flèche est de grandeur fixe.
+#}
+
+{# Paramètres par défault #}
+{% set arrowSpecsDefaults = {
+    x: 0,
+    y: 0,
+    width: 15,
+    headSize: 6,
+    ligneSize: 2,
+    rotate: 0,
+    rotateOrigin: {
+        x: 0,
+        y: 3
+    },
+} %}
+
+{# On écrase les paramètres par défault par ceux incluts #}
+{% set arrowSpecs = (arrowSpecs is defined) ? arrowSpecsDefaults|merge(arrowSpecs) : arrowSpecsDefaults %}
+
+{# Début du dessin de la flèche #}
+<polygon
+    transform="rotate({{ arrowSpecs.rotate }},{{ arrowSpecs.rotateOrigin.x }},{{ arrowSpecs.rotateOrigin.y }})"
+    points="
+        {# ligne : top left #}
+        {{ arrowSpecs.x }},{{ arrowSpecs.y + arrowSpecs.headSize / 2 - arrowSpecs.ligneSize / 2 }}
+
+        {# ligne : top right #}
+        {{ arrowSpecs.x + arrowSpecs.width - arrowSpecs.headSize }},{{ arrowSpecs.y + arrowSpecs.headSize / 2 - arrowSpecs.ligneSize / 2 }}
+
+            {# triangle : top left #}
+            {{ arrowSpecs.x + arrowSpecs.width - arrowSpecs.headSize }},{{ arrowSpecs.y }}
+
+            {# triangle : center right #}
+            {{ arrowSpecs.x + arrowSpecs.width }},{{ arrowSpecs.y + arrowSpecs.headSize / 2 }}
+
+            {# triangle : bottom left #}
+            {{ arrowSpecs.x + arrowSpecs.width - arrowSpecs.headSize }},{{ arrowSpecs.y + arrowSpecs.headSize }}
+
+        {# line : bottom right #}
+        {{ arrowSpecs.x + arrowSpecs.width - arrowSpecs.headSize }},{{ arrowSpecs.y + arrowSpecs.headSize / 2 + arrowSpecs.ligneSize / 2 }}
+
+        {# line : bottom left #}
+        {{ arrowSpecs.x }},{{ arrowSpecs.y + arrowSpecs.headSize / 2 + arrowSpecs.ligneSize / 2 }}
+    "
+/>
+
+{# Origine de rotation #}
+{#
+<circle
+    cx="{{ arrowSpecs.rotateOrigin.x }}"
+    cy="{{ arrowSpecs.rotateOrigin.y }}"
+    r="2"
+    stroke="rgba(0,0,0,0.2)"
+    stroke-width="1"
+    fill="none"
+/>#}

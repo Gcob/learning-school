@@ -22,7 +22,7 @@ class Vecteur2d
      * @ORM\ManyToOne(targetEntity=Scalaire::class)
      * @ORM\JoinColumn(nullable=false)
      */
-    private $grandeur;
+    private Scalaire $grandeur;
 
     /**
      * @ORM\Column(type="float", nullable=true)
@@ -75,7 +75,7 @@ class Vecteur2d
      */
     private static function generateName ():String
     {
-        return range('A', 'Z')[++self::$nameIndex];
+        return range('A', 'Z')[self::$nameIndex++];
     }
 
     /**
@@ -150,5 +150,16 @@ class Vecteur2d
         $this->color = $color;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return sprintf('%s : %s%s %s %s°',
+            $this->getName(),
+            $this->grandeur->getGrandeur(),
+            $this->grandeur->getUnite(),
+            $this->getSens(),
+            $this->getDirection()
+        );
     }
 }

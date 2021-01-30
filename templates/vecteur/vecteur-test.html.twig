@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Vecteur - {{ parent() }}
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>Vecteurs (testing)</h1>
+    {{ include('commons/bouton-retour-main.html.twig') }}
+    <hr>
+
+    <div>
+        {% for vecteur in vecteurs %}
+            {{ include('commons/svg-vecteur.html.twig', {'vecteur' : vecteur}) }}
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

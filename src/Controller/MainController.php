@@ -11,8 +11,12 @@ class MainController extends AbstractController
     #[Route('/', name: 'main')]
     public function index(): Response
     {
-        return $this->render('main/index.html.twig', [
+        $liens = [
+            'Vecteur/test' => $this->generateUrl('vecteurTest'),
+        ];
 
+        return $this->render('main/index.html.twig', [
+            'liens' => $liens
         ]);
     }
 }

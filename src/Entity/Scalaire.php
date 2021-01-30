@@ -27,6 +27,17 @@ class Scalaire
      */
     private $unite;
 
+    /**
+     * Scalaire constructor.
+     * @param float $grandeur
+     * @param string $unite
+     */
+    public function __construct($grandeur, $unite)
+    {
+        $this->grandeur = $grandeur;
+        $this->unite = $unite;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

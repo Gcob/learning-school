@@ -7,5 +7,15 @@
 {% block body %}
 <div class="container">
     <h1>PHY-144</h1>
+    <hr>
+    <ul>
+        {% for lienDescription, lien in liens %}
+            <li>
+                <a href="{{ lien }}">
+                    {{ lienDescription }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
 </div>
 {% endblock %}
