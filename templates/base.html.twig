@@ -1,18 +1,32 @@
 <!DOCTYPE html>
 <html>
     <head>
+        {# Métas #}
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <title>{% block title %}PHY144{% endblock %}</title>
+        {# Titre des pages #}
+        {% apply spaceless %}
+            <title>
+                {% block title %}
+                    PHY144
+                {% endblock %}
+            </title>
+        {% endapply %}
 
+        {# Les styles #}
         {% block stylesheets %}
+            {# app.css contient les styles par défaults qui se chargeront sur toutes les pages #}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
     </head>
     <body>
+        {# Tous le contenu du programme #}
         {% block body %}{% endblock %}
+
+        {# Les scripts #}
         {% block javascripts %}
+            {# app.js contient les scripts par défaults qui se chargeront sur toutes les pages #}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </body>
